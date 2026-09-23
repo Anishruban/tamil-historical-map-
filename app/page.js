@@ -3,252 +3,129 @@ import sitesData from '@/data/inscriptionSites.json';
 
 export default function Home() {
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'radial-gradient(ellipse at top, #1e293b 0%, #090d16 80%)',
-        color: '#f8fafc',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      {/* Navigation Header */}
-      <header
-        style={{
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          padding: '18px 32px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backdropFilter: 'blur(10px)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ fontSize: '1.4rem' }}>🏛️</span>
-          <span style={{ fontWeight: 800, fontSize: '1.1rem', letterSpacing: '-0.02em' }}>
-            Tamil Epigraphy & Archaeology
-          </span>
-        </div>
-        <Link
-          href="/map"
-          style={{
-            background: 'linear-gradient(135deg, #d97706, #b45309)',
-            color: '#ffffff',
-            padding: '8px 18px',
-            borderRadius: '8px',
-            fontWeight: 600,
-            fontSize: '0.88rem',
-            boxShadow: '0 4px 12px rgba(217, 119, 6, 0.3)',
-          }}
-        >
-          Open Map Explorer &rarr;
-        </Link>
-      </header>
-
-      {/* Hero Section */}
-      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 24px', flex: 1 }}>
-        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 60px auto' }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              background: 'rgba(245, 158, 11, 0.12)',
-              border: '1px solid rgba(245, 158, 11, 0.25)',
-              padding: '6px 16px',
-              borderRadius: '999px',
-              color: '#f59e0b',
-              fontSize: '0.82rem',
-              fontWeight: 600,
-              marginBottom: '20px',
-            }}
-          >
-            <span>📜</span> Tamil-Brahmi & Sangam Archaeological Sites
+    <div style={{ minHeight: '100vh', backgroundColor: '#f4f5f7' }}>
+      
+      {/* Top Banner (Government Style) */}
+      <div style={{ backgroundColor: '#ffffff', padding: '15px 20px', borderBottom: '3px solid #800000', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          {/* Placeholder for State Emblem */}
+          <div style={{ width: '50px', height: '60px', border: '1px dashed #cccccc', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#999999', fontSize: '10px', textAlign: 'center' }}>
+            Govt<br/>Seal
           </div>
+          <div>
+            <h1 style={{ fontSize: '1.4rem', fontWeight: '700', color: '#003366', margin: 0 }}>தமிழ்நாடு அரசு</h1>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: '600', color: '#003366', margin: 0, textTransform: 'uppercase' }}>Government of Tamil Nadu</h2>
+            <p style={{ fontSize: '0.9rem', color: '#800000', fontWeight: '600', margin: '4px 0 0 0' }}>தொல்லியல் துறை | Department of Archaeology</p>
+          </div>
+        </div>
+        <div style={{ textAlign: 'right', fontSize: '0.85rem', color: '#333333' }}>
+          <div style={{ marginBottom: '5px' }}>
+            <span style={{ cursor: 'pointer', margin: '0 8px', color: '#003366', textDecoration: 'underline' }}>Skip to Main Content</span> | 
+            <span style={{ cursor: 'pointer', margin: '0 8px', fontWeight: 'bold' }}>A-</span>
+            <span style={{ cursor: 'pointer', margin: '0 8px', fontWeight: 'bold' }}>A</span>
+            <span style={{ cursor: 'pointer', margin: '0 8px', fontWeight: 'bold' }}>A+</span> |
+            <span style={{ cursor: 'pointer', margin: '0 8px', color: '#800000', fontWeight: 'bold' }}>தமிழ்</span>
+          </div>
+        </div>
+      </div>
 
-          <h1
-            style={{
-              fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
-              fontWeight: 800,
-              lineHeight: 1.15,
-              letterSpacing: '-0.03em',
-              marginBottom: '20px',
-              background: 'linear-gradient(180deg, #ffffff 30%, #cbd5e1 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Interactive Tamil Historical & Inscription Map
-          </h1>
+      {/* Navigation Bar */}
+      <nav style={{ backgroundColor: '#003366', padding: '0 20px' }}>
+        <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', gap: '2px' }}>
+          <li>
+            <Link href="/" style={{ display: 'block', padding: '12px 20px', color: '#ffffff', textDecoration: 'none', fontWeight: '600', borderLeft: '1px solid rgba(255,255,255,0.2)' }}>Home</Link>
+          </li>
+          <li>
+            <Link href="#" style={{ display: 'block', padding: '12px 20px', color: '#ffffff', textDecoration: 'none', fontWeight: '600', borderLeft: '1px solid rgba(255,255,255,0.2)' }}>About Us</Link>
+          </li>
+          <li>
+            <Link href="/map" style={{ display: 'block', padding: '12px 20px', color: '#ffffff', backgroundColor: '#800000', textDecoration: 'none', fontWeight: '600', borderLeft: '1px solid rgba(255,255,255,0.2)' }}>Archaeological Map</Link>
+          </li>
+          <li>
+            <Link href="#" style={{ display: 'block', padding: '12px 20px', color: '#ffffff', textDecoration: 'none', fontWeight: '600', borderLeft: '1px solid rgba(255,255,255,0.2)' }}>Publications</Link>
+          </li>
+          <li>
+            <Link href="#" style={{ display: 'block', padding: '12px 20px', color: '#ffffff', textDecoration: 'none', fontWeight: '600', borderLeft: '1px solid rgba(255,255,255,0.2)', borderRight: '1px solid rgba(255,255,255,0.2)' }}>Contact Us</Link>
+          </li>
+        </ul>
+      </nav>
 
-          <p
-            style={{
-              fontSize: '1.1rem',
-              lineHeight: 1.6,
-              color: '#94a3b8',
-              marginBottom: '36px',
-            }}
-          >
-            Explore 10 foundational Tamil-Brahmi and Sangam-era archaeological sites across Tamil Nadu.
-            Centered at <span style={{ color: '#38bdf8' }}>[10.8505, 78.6976]</span>, featuring OpenStreetMap Leaflet tiles, custom coordinate pins, and historical inscriptions.
+      {/* Main Content */}
+      <main style={{ maxWidth: '1200px', margin: '30px auto', padding: '0 20px', minHeight: '60vh' }}>
+        
+        {/* Breadcrumb */}
+        <div style={{ fontSize: '0.85rem', color: '#666666', marginBottom: '20px', paddingBottom: '10px', borderBottom: '1px solid #cccccc' }}>
+          <Link href="/" style={{ color: '#003366', textDecoration: 'none' }}>Home</Link> &gt; <span>Archaeological Sites</span>
+        </div>
+
+        <div style={{ backgroundColor: '#ffffff', padding: '30px', border: '1px solid #e5e7eb', borderRadius: '4px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <h3 style={{ fontSize: '1.6rem', color: '#800000', borderBottom: '2px solid #800000', paddingBottom: '10px', marginBottom: '20px' }}>
+            Interactive Archaeological Map of Tamil Nadu
+          </h3>
+          
+          <p style={{ fontSize: '1rem', lineHeight: '1.6', color: '#333333', marginBottom: '20px' }}>
+            Welcome to the official Geographical Information System (GIS) portal for Archaeological and Epigraphical sites in Tamil Nadu. The State Department of Archaeology conducts systematic excavations and epigraphical surveys to uncover the rich cultural heritage of the Tamil landscape. Explore {sitesData.length} officially documented sites including Sangam-era urban settlements, Tamil-Brahmi rock shelters, and ancient ports.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <div style={{ textAlign: 'center', margin: '30px 0' }}>
             <Link
               href="/map"
               style={{
-                background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-                color: '#000000',
-                padding: '14px 28px',
-                borderRadius: '10px',
-                fontWeight: 700,
-                fontSize: '1rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                boxShadow: '0 10px 25px -5px rgba(245, 158, 11, 0.4)',
-                transition: 'transform 0.15s ease',
-              }}
-            >
-              🗺️ Launch Interactive Map
-            </Link>
-
-            <a
-              href="#sites-preview"
-              style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
+                backgroundColor: '#003366',
                 color: '#ffffff',
-                padding: '14px 24px',
-                borderRadius: '10px',
-                fontWeight: 600,
-                fontSize: '1rem',
-              }}
-            >
-              Browse 10 Sites &darr;
-            </a>
-          </div>
-        </div>
-
-        {/* 10 Sites Grid Preview */}
-        <section id="sites-preview">
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-              marginBottom: '24px',
-            }}
-          >
-            <div>
-              <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#f8fafc' }}>
-                Featured Archaeological Sites
-              </h2>
-              <p style={{ fontSize: '0.9rem', color: '#94a3b8', marginTop: '4px' }}>
-                Rock caverns, ancient monasteries, and urban settlements with Tamil-Brahmi records
-              </p>
-            </div>
-            <Link
-              href="/map"
-              style={{
-                color: '#f59e0b',
-                fontSize: '0.88rem',
-                fontWeight: 600,
+                padding: '12px 24px',
+                fontSize: '1.1rem',
+                fontWeight: '600',
                 textDecoration: 'none',
+                borderRadius: '4px',
+                border: '2px solid #002244',
+                display: 'inline-block'
               }}
             >
-              View All On Map &rarr;
+              Open Interactive GIS Map Gateway
             </Link>
           </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-              gap: '18px',
-            }}
-          >
+          <h4 style={{ fontSize: '1.3rem', color: '#003366', marginBottom: '15px', marginTop: '40px' }}>
+            List of Prominent Heritage Sites
+          </h4>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
             {sitesData.map((site) => (
-              <Link
-                key={site.id || site.name}
-                href="/map"
-                style={{
-                  background: '#131b2e',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  borderRadius: '14px',
-                  padding: '20px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                  textDecoration: 'none',
-                  transition: 'transform 0.2s ease, border-color 0.2s ease',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#ffffff', margin: 0 }}>
-                    {site.name}
-                  </h3>
-                  <span
-                    style={{
-                      background: 'rgba(245, 158, 11, 0.15)',
-                      color: '#f59e0b',
-                      fontSize: '0.72rem',
-                      padding: '2px 8px',
-                      borderRadius: '999px',
-                      fontWeight: 600,
-                      border: '1px solid rgba(245, 158, 11, 0.3)',
-                    }}
-                  >
-                    {site.district}
-                  </span>
-                </div>
-
-                <p
-                  style={{
-                    fontSize: '0.85rem',
-                    lineHeight: '1.5',
-                    color: '#94a3b8',
-                    margin: 0,
-                    flex: 1,
-                  }}
-                >
+              <div key={site.id} style={{ border: '1px solid #d1d5db', padding: '15px', backgroundColor: '#f9fafb', borderLeft: '4px solid #800000' }}>
+                <h5 style={{ fontSize: '1.1rem', color: '#003366', margin: '0 0 5px 0' }}>{site.name}</h5>
+                <p style={{ fontSize: '0.85rem', color: '#800000', fontWeight: 'bold', margin: '0 0 10px 0' }}>District: {site.district}</p>
+                <p style={{ fontSize: '0.9rem', color: '#4b5563', lineHeight: '1.4', margin: 0 }}>
                   {site.info}
                 </p>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    fontSize: '0.75rem',
-                    color: '#64748b',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-                    paddingTop: '10px',
-                  }}
-                >
-                  <span>
-                    📍 {site.lat.toFixed(4)}°N, {site.lng.toFixed(4)}°E
-                  </span>
-                  <span style={{ color: '#f59e0b', fontWeight: 600 }}>Locate &rarr;</span>
+                <div style={{ marginTop: '10px', fontSize: '0.8rem', color: '#666666' }}>
+                  Coordinates: {site.lat.toFixed(4)}, {site.lng.toFixed(4)}
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
-        </section>
+
+        </div>
       </main>
 
       {/* Footer */}
-      <footer
-        style={{
-          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-          padding: '24px 32px',
-          textAlign: 'center',
-          color: '#64748b',
-          fontSize: '0.85rem',
-        }}
-      >
-        Tamil Historical Map Module &bull; Built with Next.js, Leaflet, and OpenStreetMap
+      <footer style={{ backgroundColor: '#1f2937', color: '#d1d5db', padding: '30px 20px', borderTop: '4px solid #800000', fontSize: '0.9rem' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
+          <div>
+            <p style={{ margin: '0 0 10px 0', fontWeight: 'bold', color: '#ffffff' }}>Department of Archaeology</p>
+            <p style={{ margin: '0 0 5px 0' }}>Government of Tamil Nadu</p>
+            <p style={{ margin: '0 0 5px 0' }}>Tamil Valarchi Valagam, Halls Road,</p>
+            <p style={{ margin: '0 0 5px 0' }}>Egmore, Chennai - 600 008.</p>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ margin: '0 0 10px 0' }}><a href="#" style={{ color: '#93c5fd', textDecoration: 'none' }}>Disclaimer</a> | <a href="#" style={{ color: '#93c5fd', textDecoration: 'none' }}>Privacy Policy</a> | <a href="#" style={{ color: '#93c5fd', textDecoration: 'none' }}>Terms of Use</a></p>
+            <p style={{ margin: '0 0 5px 0' }}>Contents owned and updated by Department of Archaeology</p>
+            <p style={{ margin: '0 0 5px 0' }}>Designed & Developed in India.</p>
+            <p style={{ margin: '0 0 5px 0' }}>&copy; {new Date().getFullYear()} Government of Tamil Nadu. All rights reserved.</p>
+          </div>
+        </div>
       </footer>
+
     </div>
   );
 }

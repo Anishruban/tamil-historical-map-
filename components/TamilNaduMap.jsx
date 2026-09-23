@@ -58,8 +58,8 @@ function createCustomIcon(isActive = false) {
 
 export default function TamilNaduMap({ onSelectSite, activeSiteId }) {
   const [mounted, setMounted] = useState(false);
-  const defaultCenter = [10.8505, 78.6976];
-  const defaultZoom = 7;
+  const defaultCenter = [20.0, 0.0];
+  const defaultZoom = 2;
 
   useEffect(() => {
     // Fix default Leaflet icon paths in case standard markers are ever referenced
@@ -86,13 +86,13 @@ export default function TamilNaduMap({ onSelectSite, activeSiteId }) {
           width: '100%',
           height: '100%',
           minHeight: '520px',
-          background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+          backgroundColor: '#f4f5f7',
+          border: '1px solid #d1d5db',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: '16px',
-          color: '#e2e8f0',
+          color: '#333333',
           gap: '14px',
         }}
       >
@@ -100,14 +100,14 @@ export default function TamilNaduMap({ onSelectSite, activeSiteId }) {
           style={{
             width: '44px',
             height: '44px',
-            border: '3px solid rgba(245, 158, 11, 0.25)',
-            borderTopColor: '#f59e0b',
+            border: '3px solid #e5e7eb',
+            borderTopColor: '#003366',
             borderRadius: '50%',
             animation: 'spin 0.9s linear infinite',
           }}
         />
-        <p style={{ margin: 0, fontWeight: 500, letterSpacing: '0.02em' }}>
-          Loading Tamil Historical Map...
+        <p style={{ margin: 0, fontWeight: 600, color: '#003366' }}>
+          Loading GIS Map Data...
         </p>
         <style jsx>{`
           @keyframes spin {
@@ -160,53 +160,60 @@ export default function TamilNaduMap({ onSelectSite, activeSiteId }) {
               }}
             >
               <Popup className="heritage-popup">
-                <div style={{ padding: '6px 2px', minWidth: '220px', maxWidth: '280px' }}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      marginBottom: '6px',
-                      gap: '8px',
-                    }}
-                  >
-                    <h3
+                  <div style={{ padding: '6px 2px', minWidth: '220px', maxWidth: '280px' }}>
+                    <div
                       style={{
-                        margin: 0,
-                        fontSize: '1.1rem',
-                        fontWeight: 700,
-                        color: '#78350f',
-                        fontFamily: 'inherit',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        justifyContent: 'space-between',
+                        marginBottom: '8px',
+                        gap: '8px',
                       }}
                     >
-                      {site.name}
-                    </h3>
-                    <span
-                      style={{
-                        background: '#fef3c7',
-                        color: '#92400e',
-                        padding: '2px 8px',
-                        borderRadius: '12px',
-                        fontSize: '0.72rem',
-                        fontWeight: 600,
-                        whiteSpace: 'nowrap',
-                        border: '1px solid #fde68a',
-                      }}
-                    >
-                      {site.district}
-                    </span>
-                  </div>
+                      <h3
+                        style={{
+                          margin: 0,
+                          fontSize: '1.1rem',
+                          fontWeight: 700,
+                          color: '#003366',
+                          fontFamily: 'inherit',
+                          lineHeight: '1.2',
+                        }}
+                      >
+                        {site.name}
+                      </h3>
+                      <span
+                        style={{
+                          background: '#fbeaea',
+                          color: '#800000',
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          fontSize: '0.72rem',
+                          fontWeight: 600,
+                          whiteSpace: 'nowrap',
+                          border: '1px solid #f5c6c6',
+                        }}
+                      >
+                        {site.district}, {site.country || 'India'}
+                      </span>
+                    </div>
 
-                  <p
-                    style={{
-                      margin: '0 0 10px 0',
-                      fontSize: '0.85rem',
-                      lineHeight: '1.45',
-                      color: '#374151',
-                    }}
-                  >
-                    {site.info}
-                  </p>
+                    {site.imageUrl && (
+                      <div style={{ marginBottom: '10px', width: '100%', height: '140px', overflow: 'hidden', borderRadius: '4px', border: '1px solid #e5e7eb' }}>
+                        <img src={site.imageUrl} alt={site.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                    )}
+
+                    <p
+                      style={{
+                        margin: '0 0 10px 0',
+                        fontSize: '0.85rem',
+                        lineHeight: '1.45',
+                        color: '#374151',
+                      }}
+                    >
+                      {site.info}
+                    </p>
 
                   <div
                     style={{
@@ -227,7 +234,7 @@ export default function TamilNaduMap({ onSelectSite, activeSiteId }) {
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
-                        color: '#b45309',
+                        color: '#003366',
                         textDecoration: 'none',
                         fontWeight: 600,
                       }}

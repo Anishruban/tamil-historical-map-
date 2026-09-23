@@ -5,47 +5,16 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import sitesData from '@/data/inscriptionSites.json';
 
-// Dynamically import TamilNaduMap with SSR disabled to prevent window/Leaflet errors
+// Dynamically import TamilNaduMap with SSR disabled
 const TamilNaduMap = dynamic(() => import('@/components/TamilNaduMap'), {
   ssr: false,
   loading: () => (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        minHeight: '620px',
-        background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: '16px',
-        color: '#94a3b8',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        gap: '16px',
-      }}
-    >
-      <div
-        style={{
-          width: '48px',
-          height: '48px',
-          border: '4px solid rgba(245, 158, 11, 0.2)',
-          borderTopColor: '#f59e0b',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite',
-        }}
-      />
-      <span style={{ fontSize: '1rem', fontWeight: 600, color: '#f59e0b' }}>
-        Initializing Leaflet Historical Map...
-      </span>
-      <span style={{ fontSize: '0.85rem' }}>Loading Tamil-Brahmi archaeological sites</span>
-      <style jsx>{`
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
+    <div style={{
+      width: '100%', height: '100%', minHeight: '620px', backgroundColor: '#f4f5f7',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      border: '1px solid #d1d5db', color: '#333333'
+    }}>
+      <span style={{ fontSize: '1rem', fontWeight: 600, color: '#003366' }}>Loading GIS Map Data...</span>
     </div>
   ),
 });
@@ -53,519 +22,136 @@ const TamilNaduMap = dynamic(() => import('@/components/TamilNaduMap'), {
 export default function MapPage() {
   const [activeSite, setActiveSite] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDistrict, setSelectedDistrict] = useState('All');
+  const [selectedCountry, setSelectedCountry] = useState('All');
 
-  // Extract unique districts
-  const districts = useMemo(() => {
-    const list = Array.from(new Set(sitesData.map((s) => s.district))).sort();
+  const countries = useMemo(() => {
+    const list = Array.from(new Set(sitesData.map((s) => s.country || 'India'))).sort();
     return ['All', ...list];
   }, []);
 
-  // Filtered sites
   const filteredSites = useMemo(() => {
     return sitesData.filter((site) => {
-      const matchesSearch =
-        site.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        site.district.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        site.info.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesDistrict =
-        selectedDistrict === 'All' || site.district === selectedDistrict;
-      return matchesSearch && matchesDistrict;
+      const matchesSearch = site.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            site.district.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            (site.country && site.country.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                            site.info.toLowerCase().includes(searchQuery.toLowerCase());
+      const siteCountry = site.country || 'India';
+      const matchesCountry = selectedCountry === 'All' || siteCountry === selectedCountry;
+      return matchesSearch && matchesCountry;
     });
-  }, [searchQuery, selectedDistrict]);
+  }, [searchQuery, selectedCountry]);
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        backgroundColor: '#090d16',
-        color: '#f8fafc',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      {/* Top Navigation Bar */}
-      <header
-        style={{
-          background: 'rgba(15, 23, 42, 0.85)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 100,
-          padding: '14px 24px',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '1600px',
-            margin: '0 auto',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '12px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <Link
-              href="/"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                color: '#94a3b8',
-                fontSize: '0.88rem',
-                padding: '6px 12px',
-                borderRadius: '8px',
-                background: 'rgba(255, 255, 255, 0.05)',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              &larr; Home
-            </Link>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <h1
-                  style={{
-                    fontSize: '1.25rem',
-                    fontWeight: 700,
-                    letterSpacing: '-0.02em',
-                    color: '#ffffff',
-                    margin: 0,
-                  }}
-                >
-                  Tamil Historical Map
-                </h1>
-                <span
-                  style={{
-                    background: 'linear-gradient(135deg, #d97706, #b45309)',
-                    color: '#fff',
-                    padding: '2px 8px',
-                    borderRadius: '999px',
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Sangam & Tamil-Brahmi
-                </span>
-              </div>
-              <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8' }}>
-                தமிழ் பிராமி மற்றும் தொல்லியல் தளங்கள் &bull; 10 Key Archaeological Sites
-              </p>
-            </div>
-          </div>
-
-          {/* Quick Metrics */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div
-              style={{
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                padding: '6px 14px',
-                borderRadius: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-            >
-              <span style={{ fontSize: '1.1rem' }}>🏛️</span>
-              <div>
-                <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Sites</div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#f59e0b' }}>
-                  10 Heritage
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                padding: '6px 14px',
-                borderRadius: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-            >
-              <span style={{ fontSize: '1.1rem' }}>🧭</span>
-              <div>
-                <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Center</div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#38bdf8' }}>
-                  10.85°N, 78.70°E
-                </div>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setActiveSite(null)}
-              style={{
-                background: 'rgba(245, 158, 11, 0.15)',
-                color: '#f59e0b',
-                border: '1px solid rgba(245, 158, 11, 0.3)',
-                padding: '8px 14px',
-                borderRadius: '8px',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              Reset View
-            </button>
+    <div style={{ minHeight: '100vh', backgroundColor: '#f4f5f7' }}>
+      
+      {/* Top Banner (Government Style) */}
+      <div style={{ backgroundColor: '#ffffff', padding: '10px 20px', borderBottom: '3px solid #800000', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div style={{ width: '40px', height: '48px', border: '1px dashed #cccccc', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#999999', fontSize: '9px', textAlign: 'center' }}>Govt<br/>Seal</div>
+          <div>
+            <h1 style={{ fontSize: '1.2rem', fontWeight: '700', color: '#003366', margin: 0 }}>தமிழ்நாடு அரசு | Government of Tamil Nadu</h1>
+            <p style={{ fontSize: '0.85rem', color: '#800000', fontWeight: '600', margin: '2px 0 0 0' }}>தொல்லியல் துறை | Department of Archaeology</p>
           </div>
         </div>
-      </header>
+        <div>
+           <Link href="/" style={{ color: '#003366', textDecoration: 'none', fontWeight: 'bold', fontSize: '0.9rem' }}>&larr; Back to Home</Link>
+        </div>
+      </div>
 
       {/* Main Content Area */}
-      <main
-        style={{
-          flex: 1,
-          maxWidth: '1600px',
-          width: '100%',
-          margin: '0 auto',
-          padding: '20px',
-          display: 'grid',
-          gridTemplateColumns: '380px 1fr',
-          gap: '20px',
-        }}
-      >
+      <main style={{ maxWidth: '1600px', margin: '20px auto', padding: '0 20px', display: 'grid', gridTemplateColumns: '400px 1fr', gap: '20px' }}>
+        
         {/* Left Side: Directory & Controls */}
-        <section
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-            maxHeight: 'calc(100vh - 120px)',
-            overflow: 'hidden',
-          }}
-        >
-          {/* Search and District Filter Card */}
-          <div
-            style={{
-              background: '#131b2e',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: '14px',
-              padding: '16px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-            }}
-          >
-            <div>
-              <label
-                style={{
-                  display: 'block',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  color: '#94a3b8',
-                  marginBottom: '6px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                }}
-              >
-                Search Inscriptions & Sites
-              </label>
-              <input
-                type="text"
-                placeholder="Search site, king, cave, district..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{
-                  width: '100%',
-                  background: '#090d16',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  borderRadius: '8px',
-                  padding: '9px 12px',
-                  color: '#ffffff',
-                  fontSize: '0.88rem',
-                  outline: 'none',
-                }}
-              />
+        <section style={{ display: 'flex', flexDirection: 'column', gap: '15px', maxHeight: 'calc(100vh - 100px)', overflow: 'hidden' }}>
+          
+          {/* Search and Filter */}
+          <div style={{ background: '#ffffff', border: '1px solid #d1d5db', borderTop: '4px solid #003366', padding: '15px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+            <h2 style={{ fontSize: '1.1rem', color: '#003366', margin: '0 0 15px 0', borderBottom: '1px solid #eeeeee', paddingBottom: '10px' }}>Archaeological Site Directory</h2>
+            
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#333333', marginBottom: '5px' }}>Search Query</label>
+              <input type="text" placeholder="Enter keywords..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ width: '100%', border: '1px solid #cccccc', padding: '8px', fontSize: '0.9rem', outline: 'none' }} />
             </div>
 
             <div>
-              <label
-                style={{
-                  display: 'block',
-                  fontSize: '0.78rem',
-                  fontWeight: 600,
-                  color: '#94a3b8',
-                  marginBottom: '6px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                }}
-              >
-                District Filter
-              </label>
-              <select
-                value={selectedDistrict}
-                onChange={(e) => setSelectedDistrict(e.target.value)}
-                style={{
-                  width: '100%',
-                  background: '#090d16',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  borderRadius: '8px',
-                  padding: '8px 12px',
-                  color: '#ffffff',
-                  fontSize: '0.88rem',
-                  outline: 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                {districts.map((d) => (
-                  <option key={d} value={d}>
-                    {d === 'All' ? 'All Districts' : `${d} District`}
-                  </option>
-                ))}
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#333333', marginBottom: '5px' }}>Filter by Region/Country</label>
+              <select value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}
+                style={{ width: '100%', border: '1px solid #cccccc', padding: '8px', fontSize: '0.9rem', outline: 'none', backgroundColor: '#ffffff' }}>
+                {countries.map((c) => <option key={c} value={c}>{c === 'All' ? 'Global View (All)' : c}</option>)}
               </select>
+            </div>
+            
+            <div style={{ marginTop: '15px', fontSize: '0.85rem', color: '#666666' }}>
+              Showing {filteredSites.length} of {sitesData.length} total records.
             </div>
           </div>
 
           {/* Sites List */}
-          <div
-            style={{
-              flex: 1,
-              overflowY: 'auto',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              paddingRight: '4px',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '0 4px',
-              }}
-            >
-              <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>
-                Showing {filteredSites.length} of {sitesData.length} sites
-              </span>
-              {activeSite && (
-                <span style={{ fontSize: '0.75rem', color: '#f59e0b' }}>
-                  Selected: {activeSite.name}
-                </span>
-              )}
-            </div>
-
-            {filteredSites.length === 0 ? (
-              <div
-                style={{
-                  padding: '30px 20px',
-                  textAlign: 'center',
-                  background: '#131b2e',
-                  borderRadius: '12px',
-                  color: '#64748b',
-                  fontSize: '0.9rem',
-                }}
-              >
-                No historical sites found matching &ldquo;{searchQuery}&rdquo;.
-              </div>
-            ) : (
-              filteredSites.map((site) => {
-                const isSelected = activeSite && activeSite.name === site.name;
-                return (
-                  <div
-                    key={site.id || site.name}
-                    onClick={() => setActiveSite(site)}
-                    style={{
-                      background: isSelected
-                        ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(180, 83, 9, 0.2) 100%)'
-                        : '#131b2e',
-                      border: isSelected
-                        ? '1px solid #f59e0b'
-                        : '1px solid rgba(255, 255, 255, 0.06)',
-                      borderRadius: '12px',
-                      padding: '14px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                      boxShadow: isSelected
-                        ? '0 4px 12px rgba(245, 158, 11, 0.2)'
-                        : 'none',
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        justifyContent: 'space-between',
-                        gap: '8px',
-                        marginBottom: '6px',
-                      }}
-                    >
-                      <h2
-                        style={{
-                          fontSize: '1rem',
-                          fontWeight: 700,
-                          color: isSelected ? '#fef08a' : '#f8fafc',
-                          margin: 0,
-                        }}
-                      >
-                        {site.name}
-                      </h2>
-                      <span
-                        style={{
-                          background: isSelected
-                            ? '#f59e0b'
-                            : 'rgba(255, 255, 255, 0.08)',
-                          color: isSelected ? '#000000' : '#cbd5e1',
-                          padding: '2px 8px',
-                          borderRadius: '999px',
-                          fontSize: '0.72rem',
-                          fontWeight: 600,
-                        }}
-                      >
-                        {site.district}
-                      </span>
-                    </div>
-
-                    <p
-                      style={{
-                        fontSize: '0.82rem',
-                        lineHeight: '1.45',
-                        color: isSelected ? '#e2e8f0' : '#94a3b8',
-                        margin: '0 0 10px 0',
-                        display: '-webkit-box',
-                        WebkitLineClamp: isSelected ? 4 : 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {site.info}
-                    </p>
-
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        fontSize: '0.72rem',
-                        color: isSelected ? '#fde047' : '#64748b',
-                      }}
-                    >
-                      <span>
-                        📍 {site.lat.toFixed(4)}°N, {site.lng.toFixed(4)}°E
-                      </span>
-                      <span style={{ fontWeight: 600 }}>
-                        {isSelected ? 'Viewing on map &rarr;' : 'Click to view'}
-                      </span>
-                    </div>
+          <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', paddingRight: '5px' }}>
+            {filteredSites.map((site) => {
+              const isSelected = activeSite && activeSite.name === site.name;
+              return (
+                <div key={site.id} onClick={() => setActiveSite(site)}
+                  style={{
+                    background: isSelected ? '#f0f4f8' : '#ffffff',
+                    border: isSelected ? '1px solid #003366' : '1px solid #e5e7eb',
+                    borderLeft: isSelected ? '5px solid #003366' : '5px solid #800000',
+                    padding: '12px', cursor: 'pointer', transition: 'all 0.1s ease',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                  }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '5px' }}>
+                    <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#003366', margin: 0 }}>{site.name}</h3>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#800000', backgroundColor: '#fbeaea', padding: '2px 6px', border: '1px solid #f5c6c6' }}>
+                      {site.district}, {site.country || 'India'}
+                    </span>
                   </div>
-                );
-              })
-            )}
+                  <p style={{ fontSize: '0.85rem', color: '#4b5563', margin: '0 0 8px 0', display: '-webkit-box', WebkitLineClamp: isSelected ? 5 : 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    {site.info}
+                  </p>
+                  <div style={{ fontSize: '0.75rem', color: '#666666' }}>
+                    Coordinates: {site.lat.toFixed(4)}, {site.lng.toFixed(4)}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
         {/* Right Side: Map Container */}
-        <section
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-            minHeight: '620px',
-            height: 'calc(100vh - 120px)',
-          }}
-        >
+        <section style={{ display: 'flex', flexDirection: 'column', gap: '15px', height: 'calc(100vh - 100px)' }}>
+          
           {/* Active Site Highlight Bar */}
           {activeSite && (
-            <div
-              style={{
-                background: 'linear-gradient(90deg, #1e293b 0%, #0f172a 100%)',
-                border: '1px solid rgba(245, 158, 11, 0.4)',
-                borderRadius: '12px',
-                padding: '12px 18px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '12px',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
-              }}
-            >
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ color: '#f59e0b', fontSize: '1.1rem' }}>🏛️</span>
-                  <span style={{ fontWeight: 700, fontSize: '1rem', color: '#fff' }}>
-                    {activeSite.name}
-                  </span>
-                  <span
-                    style={{
-                      background: 'rgba(245, 158, 11, 0.2)',
-                      color: '#f59e0b',
-                      fontSize: '0.72rem',
-                      padding: '2px 8px',
-                      borderRadius: '6px',
-                      fontWeight: 600,
-                    }}
-                  >
-                    {activeSite.district} District
-                  </span>
+            <div style={{ background: '#ffffff', border: '1px solid #003366', padding: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', gap: '15px' }}>
+              <div style={{ display: 'flex', gap: '15px', flex: 1 }}>
+                {activeSite.imageUrl && (
+                  <img src={activeSite.imageUrl} alt={activeSite.name} style={{ width: '120px', height: '80px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e5e7eb' }} />
+                )}
+                <div>
+                  <h3 style={{ fontSize: '1.2rem', color: '#003366', margin: '0 0 5px 0' }}>{activeSite.name} <span style={{ fontSize: '0.9rem', color: '#800000', fontWeight: 'normal' }}>({activeSite.district}, {activeSite.country || 'India'})</span></h3>
+                  <p style={{ margin: 0, fontSize: '0.9rem', color: '#333333' }}>{activeSite.info}</p>
                 </div>
-                <p
-                  style={{
-                    margin: '4px 0 0 0',
-                    fontSize: '0.82rem',
-                    color: '#cbd5e1',
-                  }}
-                >
-                  {activeSite.info}
-                </p>
               </div>
-
-              <button
-                onClick={() => setActiveSite(null)}
-                style={{
-                  background: 'transparent',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: '#94a3b8',
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  fontSize: '0.75rem',
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                Clear Selection
+              <button onClick={() => setActiveSite(null)}
+                style={{ background: '#f8f9fa', border: '1px solid #cccccc', padding: '6px 12px', fontSize: '0.85rem', cursor: 'pointer', color: '#333333', whiteSpace: 'nowrap' }}>
+                Clear
               </button>
             </div>
           )}
 
-          {/* Leaflet Map Frame */}
-          <div
-            style={{
-              flex: 1,
-              width: '100%',
-              minHeight: '520px',
-              borderRadius: '16px',
-              overflow: 'hidden',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-            }}
-          >
-            <TamilNaduMap
-              activeSiteId={activeSite ? activeSite.name : null}
-              onSelectSite={(site) => setActiveSite(site)}
-            />
+          {/* Map Frame */}
+          <div style={{ flex: 1, border: '2px solid #003366', backgroundColor: '#ffffff', overflow: 'hidden', position: 'relative' }}>
+            <TamilNaduMap activeSiteId={activeSite ? activeSite.name : null} onSelectSite={(site) => setActiveSite(site)} />
           </div>
         </section>
       </main>
 
       <style jsx global>{`
         @media (max-width: 960px) {
-          main {
-            grid-template-columns: 1fr !important;
-          }
-          section:first-child {
-            max-height: 380px !important;
-          }
-          section:last-child {
-            height: 520px !important;
-          }
+          main { grid-template-columns: 1fr !important; }
+          section:first-child { max-height: 400px !important; }
+          section:last-child { height: 500px !important; }
         }
       `}</style>
     </div>
