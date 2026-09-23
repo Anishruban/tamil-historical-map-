@@ -47,10 +47,10 @@ export default function MapPage() {
       {/* Top Banner (Government Style) */}
       <div style={{ backgroundColor: '#ffffff', padding: '10px 20px', borderBottom: '3px solid #800000', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <div style={{ width: '40px', height: '48px', border: '1px dashed #cccccc', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#999999', fontSize: '9px', textAlign: 'center' }}>Govt<br/>Seal</div>
+          <img src="https://placehold.co/150x150/003366/ffffff?text=AUREX" alt="Aurex Hackathon Logo" style={{ width: '48px', height: '48px', objectFit: 'contain', borderRadius: '6px', border: '1px solid #cccccc' }} />
           <div>
-            <h1 style={{ fontSize: '1.2rem', fontWeight: '700', color: '#003366', margin: 0 }}>தமிழ்நாடு அரசு | Government of Tamil Nadu</h1>
-            <p style={{ fontSize: '0.85rem', color: '#800000', fontWeight: '600', margin: '2px 0 0 0' }}>தொல்லியல் துறை | Department of Archaeology</p>
+            <h1 style={{ fontSize: '1.2rem', fontWeight: '700', color: '#003366', margin: 0 }}>Indian Classical Tamil | Aurex Hackathon</h1>
+            <p style={{ fontSize: '0.85rem', color: '#800000', fontWeight: '600', margin: '2px 0 0 0' }}>Global Archaeological & Epigraphical Map</p>
           </div>
         </div>
         <div>
