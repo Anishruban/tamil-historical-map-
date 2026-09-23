@@ -1,0 +1,82 @@
+[
+  {
+    "id": "mangulam",
+    "name": "Mangulam",
+    "district": "Madurai",
+    "lat": 9.9863,
+    "lng": 78.2396,
+    "info": "Home to the earliest dated Tamil-Brahmi rock-cut inscriptions (circa 3rd–2nd century BCE). The inscriptions explicitly record gifts and rock beds gifted to Jain monks by the Early Pandya ruler Nedunchezhiyan."
+  },
+  {
+    "id": "thirupparankundram",
+    "name": "Thirupparankundram",
+    "district": "Madurai",
+    "lat": 9.8786,
+    "lng": 78.0714,
+    "info": "Features 2nd century BCE Tamil-Brahmi inscriptions carved into the rock cavern beds. Notably records donations made by a householder from ancient Sri Lanka (Eelak-kudumpikan), demonstrating early trans-oceanic cultural links."
+  },
+  {
+    "id": "samanarmalai",
+    "name": "Samanarmalai",
+    "district": "Madurai",
+    "lat": 9.9197,
+    "lng": 78.0575,
+    "info": "A renowned hill complex in Keelakuyilkudi featuring ancient Tamil-Brahmi inscriptions, Vatteluttu records, carved rock-cut beds, and remarkable bas-relief sculptures of Jain Tirthankaras dating from the 3rd century BCE to the 10th century CE."
+  },
+  {
+    "id": "arittapatti",
+    "name": "Arittapatti",
+    "district": "Madurai",
+    "lat": 10.0461,
+    "lng": 78.2917,
+    "info": "Recognized as a biological and historical heritage site. The granitic hillocks shelter 2,200-year-old Tamil-Brahmi inscriptions and sculpted drip ledges chiseled for ascetic monks meditating in rock shelters."
+  },
+  {
+    "id": "sittanavasal",
+    "name": "Sittanavasal",
+    "district": "Pudukkottai",
+    "lat": 10.4578,
+    "lng": 78.7303,
+    "info": "Celebrated for the rock-cut cave temple Arivar Koil and the 'Ezhadippattam' cavern. Contains 2nd century BCE Tamil-Brahmi inscriptions identifying the names of ascetic monks alongside famous 7th-century Jain fresco murals."
+  },
+  {
+    "id": "jambai",
+    "name": "Jambai",
+    "district": "Tiruvannamalai",
+    "lat": 11.9961,
+    "lng": 79.1306,
+    "info": "Site of the momentous 1st-century CE Tamil-Brahmi inscription carved on a rock cave. It bears the title 'Satyaputo' given to the chieftain Adiyaman Neduman Anji, corroborating Sangam poetry and Ashokan edicts."
+  },
+  {
+    "id": "pugalur",
+    "name": "Pugalur",
+    "district": "Karur",
+    "lat": 11.0664,
+    "lng": 78.0163,
+    "info": "Located on the Pugalur Malai near the Cauvery River. Features six 1st–2nd century CE Tamil-Brahmi inscriptions recording three generations of Chera kings of the Irumporai lineage donating rock shelters to Jain ascetics."
+  },
+  {
+    "id": "keezhadi",
+    "name": "Keezhadi",
+    "district": "Sivagangai",
+    "lat": 9.8631,
+    "lng": 78.1882,
+    "info": "A major Sangam-era urban settlement excavated along the Vaigai river basin, dated scientifically to the 6th century BCE. Hundreds of potsherds bearing Tamil-Brahmi script names push back the antiquity of Tamil literacy."
+  },
+  {
+    "id": "kodumanal",
+    "name": "Kodumanal",
+    "district": "Erode",
+    "lat": 11.1092,
+    "lng": 77.5147,
+    "info": "An ancient industrial and quartz-bead manufacturing trade center on the Noyyal river, celebrated in Sangam literature. Excavations uncovered hundreds of inscribed Tamil-Brahmi potsherds and megalithic cist burials."
+  },
+  {
+    "id": "porunthal",
+    "name": "Porunthal",
+    "district": "Dindigul",
+    "lat": 10.5361,
+    "lng": 77.4917,
+    "info": "An extensive Megalithic burial site near Palani. Excavations yielded intact ring-stands and pots inscribed in Tamil-Brahmi containing well-preserved paddy grains carbon-dated to circa 490 BCE."
+  }
+]
